@@ -1,0 +1,8 @@
+FROM eclipse-mosquitto 
+LABEL maintainer = "Arizbeth Rojas <arojas@iqt.org>"
+RUN apk add --update curl mosquitto && rm -rf /var/cache/apk/*
+COPY mosquitto.conf /etc/mosquitto/mosquitto.conf
+COPY start_mqtt.sh .
+EXPOSE 1883
+ENTRYPOINT ["./start_mqtt.sh"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
