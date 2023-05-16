@@ -1,2 +1,5 @@
 .mqtt_password
 .mqtt_user
+.ca_password
+*.env
+step/

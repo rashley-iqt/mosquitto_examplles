@@ -1,18 +1,42 @@
 version: '3.7'
 
 services:
+  ca:
+    image: smallstep/step-ca:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.ca
+    env_file:
+      - ca.env 
+    hostname: ca
+    # depends_on:
+    #   - ca-bootstrap
+    volumes:
+      - "${PWD}/step:/home/step"
+    networks:
+      test:
+          aliases:
+            - ca.mqtt.local
+    secrets:
+      - ca_pass
+    command: tail -f /dev/null
+
   mqtt:
     image: mqtt-test-server
     build:
       context: .
       dockerfile: Dockerfile.server
-    hostname: mqtt-server
+    hostname: server
+    depends_on:
+      - ca
     ports:
         - "9001:9001"
         - "1883:1883"
     restart: unless-stopped
     networks:
-      - test
+      test:
+        aliases:
+          - server.mqtt.local
     secrets:
       - mqtt_pass
       - mqtt_user
@@ -22,21 +46,25 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.client
-    hostname: mqtt-client
+    hostname: client
     depends_on:
       - mqtt
     restart: unless-stopped
     networks:
-      - test
+      test:
+        aliases:
+          - client.mqtt.local
     secrets:
       - mqtt_pass
       - mqtt_user
 
 networks:
   test:
-    name: test
+    name: mqtt.local
 
 secrets:
+  ca_pass:
+    file: .ca_password
   mqtt_pass:
     file: .mqtt_password
   mqtt_user:
