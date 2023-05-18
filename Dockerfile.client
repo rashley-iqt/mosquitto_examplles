@@ -4,7 +4,10 @@ FROM efrecon/mqtt-client:latest
 #copy step binary for bootstrapping ca
 COPY --from=step /usr/local/bin/step /usr/local/bin/
 
-
 COPY trust_ca.sh .
 
-ENTRYPOINT ["./trust_ca.sh","&&","tail", "-f", "/dev/null"]
+USER root
+RUN apk add --update curl
+
+# ENTRYPOINT ["./trust_ca.sh","&&","tail", "-f", "/dev/null"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]

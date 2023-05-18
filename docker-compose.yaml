@@ -31,9 +31,8 @@ services:
     hostname: server
     depends_on:
       - ca
-    ports:
-        - "9001:9001"
-        - "1883:1883"
+    expose:
+      - 8883
     restart: unless-stopped
     networks:
       test:
