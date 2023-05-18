@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   ca:
-    image: smallstep/step-ca:latest
+    image: mqtt-ca
     build:
       context: .
       dockerfile: Dockerfile.ca
@@ -17,9 +17,11 @@ services:
       test:
           aliases:
             - ca.mqtt.local
+    expose:
+      - 8051
+      - 8050
     secrets:
       - ca_pass
-    command: tail -f /dev/null
 
   mqtt:
     image: mqtt-test-server

@@ -1,8 +1,13 @@
+FROM smallstep/step-cli as step
 FROM eclipse-mosquitto 
 LABEL maintainer = "Arizbeth Rojas <arojas@iqt.org>"
 
-RUN apk add --update curl mosquitto certbot && rm -rf /var/cache/apk/*
+#copy step binary for bootstrapping ca
+COPY --from=step /usr/local/bin/step /usr/local/bin/
+
+RUN apk add --update curl mosquitto ca-certificates certbot && rm -rf /var/cache/apk/*
 COPY mosquitto.conf /etc/mosquitto/mosquitto.conf
+COPY trust_ca.sh .
 COPY start_mqtt.sh .
 EXPOSE 1883
 # ENTRYPOINT ["./start_mqtt.sh"]

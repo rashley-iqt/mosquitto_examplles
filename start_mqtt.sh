@@ -5,7 +5,10 @@ touch /etc/mosquitto/passwd
 touch /var/log/mosquitto.log
 chown mosquitto:mosquitto /var/log/mosquitto.log
 chown mosquitto:mosquitto /etc/mosquitto/passwd
-# certbot
+./trust_ca.sh
+certbot certonly --standalone --domains server.mqtt.local \
+--register-unsafely-without-email \
+--server https://ca.mqtt.local:8050/acme/acme/directory
 mosquitto_passwd -b /etc/mosquitto/passwd $(cat /run/secrets/mqtt_user) $(cat /run/secrets/mqtt_pass)
 /usr/sbin/mosquitto -v -c /etc/mosquitto/mosquitto.conf
 
