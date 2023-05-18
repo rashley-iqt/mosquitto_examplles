@@ -49,7 +49,7 @@ services:
       dockerfile: Dockerfile.client
     hostname: client
     depends_on:
-      - mqtt
+      - ca
     restart: unless-stopped
     networks:
       test:

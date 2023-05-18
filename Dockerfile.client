@@ -5,9 +5,9 @@ FROM efrecon/mqtt-client:latest
 COPY --from=step /usr/local/bin/step /usr/local/bin/
 
 COPY trust_ca.sh .
+COPY start_client.sh .
 
 USER root
 RUN apk add --update curl
 
-# ENTRYPOINT ["./trust_ca.sh","&&","tail", "-f", "/dev/null"]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["./start_client.sh"]
