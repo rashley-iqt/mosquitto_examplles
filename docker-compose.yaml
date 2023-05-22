@@ -9,8 +9,6 @@ services:
     env_file:
       - ca.env 
     hostname: ca
-    # depends_on:
-    #   - ca-bootstrap
     volumes:
       - "${PWD}/step:/home/step"
     networks:
@@ -30,7 +28,8 @@ services:
       dockerfile: Dockerfile.server
     hostname: server
     depends_on:
-      - ca
+      ca:
+        condition: service_healthy
     expose:
       - 8883
     restart: unless-stopped
@@ -49,7 +48,8 @@ services:
       dockerfile: Dockerfile.client
     hostname: client
     depends_on:
-      - ca
+      ca:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       test:

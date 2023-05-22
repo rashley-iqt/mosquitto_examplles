@@ -20,4 +20,4 @@ mosquitto_passwd -b /etc/mosquitto/passwd $(cat /run/secrets/mqtt_user) $(cat /r
 /usr/sbin/mosquitto -v -c /etc/mosquitto/mosquitto.conf
 
 # test with mosquitto_pub -h mqtt-server -u $(cat /run/secrets/mqtt_user) -P $(cat /run/secrets/mqtt_pass) -t "test" -m "Hats!"
-# test with TLS mosquitto_pub -h server.mqtt.local -p 8883 -u $(cat /run/secrets/mqtt_user) -P $(cat /run/secrets/mqtt_pass) -t "enctest" -m "I'm Encrypted!"
+# test with TLS mosquitto_pub -h server.mqtt.local -p 8883 -u $(cat /run/secrets/mqtt_user) -P $(cat /run/secrets/mqtt_pass) --tls-use-os-certs -t "enctest" -m "I'm Encrypted!"
