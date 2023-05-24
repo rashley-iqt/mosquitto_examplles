@@ -4,10 +4,10 @@ services:
   ca:
     image: mqtt-ca
     build:
-      context: .
+      context: ca
       dockerfile: Dockerfile.ca
     env_file:
-      - ca.env 
+      - ca/ca.env 
     hostname: ca
     volumes:
       - "${PWD}/step:/home/step"
@@ -24,7 +24,7 @@ services:
   mqtt:
     image: mqtt-test-server
     build:
-      context: .
+      context: server
       dockerfile: Dockerfile.server
     hostname: server
     depends_on:
@@ -44,7 +44,7 @@ services:
   client:
     image: mqtt-test-client
     build:
-      context: .
+      context: client
       dockerfile: Dockerfile.client
     hostname: client
     depends_on:
