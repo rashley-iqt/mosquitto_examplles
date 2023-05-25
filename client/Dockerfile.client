@@ -1,5 +1,6 @@
 FROM smallstep/step-cli as step
 FROM efrecon/mqtt-client:latest
+LABEL maintainer = "Ryan <rashley@iqt.org>"
 
 #copy step binary for bootstrapping ca
 COPY --from=step /usr/local/bin/step /usr/local/bin/
