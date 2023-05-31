@@ -7,7 +7,9 @@ COPY --from=step /usr/local/bin/step /usr/local/bin/
 
 RUN apk add --update curl mosquitto ca-certificates certbot openrc && rm -rf /var/cache/apk/*
 COPY mosquitto.conf /etc/mosquitto/mosquitto.conf
+# COPY server.mqtt.local.conf /etc/letsencrypt/renewal/server.mqtt.local.conf
 COPY trust_ca.sh .
+COPY update_mqtt_cfg.sh .
 COPY start_mqtt.sh .
 EXPOSE 1883
 EXPOSE 8883
